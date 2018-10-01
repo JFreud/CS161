@@ -38,4 +38,8 @@
   - let add1 y = one + y
   - lett one = 11
   - add1 2 is still 3 because when we defined one, it was shorthand for the number 1
- 
+- loading files
+```
+:load Oct01
+```
+- comments using -- (single line) or {- -} (multiple line)
