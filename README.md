@@ -43,3 +43,16 @@
 :load Oct01
 ```
 - comments using -- (single line) or {- -} (multiple line)
+- misc:
+```
+-- hoursPerDay = 24
+-- minutesPerHour = 60
+-- hoursPerDay = 30
+
+
+minutesPerDay =
+  let hoursPerDay = 24 in
+  let minutesPerHour = 60 in
+  hoursPerDay * minutesPerHour
+```
+- nested lets allow you to shadow whereas top level file gives you error
