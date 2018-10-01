@@ -1,7 +1,11 @@
 # Notes for CS 161
 
+### Table of Contents
+DATE | AIM
+:---:| ---
+10/1 | [Introduction](#100118-introduction)
 
-### Introduction
+### 10.01.18 Introduction
 
 - learning Haskell is useful for the way it forces you to think
 - [Class Page](http://cmsc-16100.cs.uchicago.edu/2018-autumn/)
