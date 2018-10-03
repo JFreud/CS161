@@ -23,6 +23,15 @@ DATE | AIM
     - ```1 : []``` -> ```[1]```
     - ```1 : (2 : [])``` -> ```[1, 2]```
 - you can omit parens: ```1 : 2 : 3 : []```, Haskell again implicitly adds parens to the right
+- type of empty list
+  - ```:t [] :: {- forall a. -} [a]``` <- how it should be read
+- ```id :: a -> a```
+  - polymorphism 
+- defining a length fxn
+  - ```length :: {- for all a. -} [a] -> Int```
+  - ```length [] = 0```
+  - ```length (x:xs) = 1 + length xs``` <- x:xs is list pattern, x gets mapped to single element, xs gets mapped to rest
+- read about map to more generally define list fxns
     
   
 
