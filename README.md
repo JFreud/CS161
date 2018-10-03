@@ -4,6 +4,27 @@
 DATE | AIM
 :---:| ---
 10/1 | [Introduction](#100118-introduction)
+10/3 | [Lists](#100318-lists)
+
+### 10.03.18 Lists
+
+- tuple syntax to define packages of items, denoted by parentheses
+- you can have empty tuple ("unit"), two-tuple is "pair", etc..
+- no such thing as a one-element tuple, because that would just be the item in parentheses (e.g. ((((True)))) :: Bool)
+- a list on the other hand can have an unknown number of elements
+  - ```:t [True, False, False] :: [Bool]``` <- list of booleans
+  - every element must have the same type
+- strings are lists of characters: "abc" is syntactic sugar for ```['a', 'b', 'c']```
+  - ```"abc" :: [Char]```
+  - we could say ```type String = [Char]``` and "abc" would be type String
+- Haskell has 2 ways of building a list
+  1. the empty list: []
+  2. start with the empty list and construct a new list by attaching a new element  (you can only prepend lists)
+    - ```1 : []``` -> ```[1]```
+    - ```1 : (2 : [])``` -> ```[1, 2]```
+- you can omit parens: ```1 : 2 : 3 : []```, Haskell again implicitly adds parens to the right
+    
+  
 
 ### 10.01.18 Introduction
 
