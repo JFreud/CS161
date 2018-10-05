@@ -37,9 +37,53 @@ getName (Instructor name _) = name
 data MaybeError
   = Error String -- "error"
   | Success String
+  deriving (Show)
+```
+- so now when you try ``` map getName [Instructor "Ravi" [], Student  "Christian" "asdafsa" 100000, Parent 10] ```
+- you get ``` [Success "Ravi",Success "Christian",Error] ```
+- anything else to make it more useful?
+  - make it more generic, what if we want getAge? but we defined MaybeError to hold a String in the case of success
+  - define it to take type parameter as an argument
+```Haskell
+data MaybeError a
+  = Error -- String -- "error"
+  | Success a
+  deriving (Show)
 ```
 
+##### Full code
+```Haskell
 
+-- type {- alias -} String = [Char] <- already defined in Prelude
+
+data Person
+  = Student String String Int
+  | Instructor String [String]
+  | Parent Int
+  deriving (Show)
+
+--  [Student, Instructor, Instructor] works because they are the same type
+
+getName :: Person -> MaybeError String
+getName (Student name _ _) = Success name
+-- use data constructors to pattern match values (underscores are like wildcards)
+getName (Instructor name _) = Success name
+-- getName (Instructor "ravi" []) -> "ravi"
+-- map getName [Instructor "Ravi" [], Student  "Christian" "asdafsa" 100000] -> ["Ravi", "Christian"]
+-- getName (Parent _) = "No Name"
+getName (Parent _) = Error
+
+getAge :: Person -> MaybeError Int
+getAge (Parent i)    = Success i
+getAge _             = Error
+-- don't do it the other way around (underscores take everything so it would also throw error for Parent!)
+
+data MaybeError a
+  = Error -- String -- "error"
+  | Success a
+  deriving (Show)
+
+```
 
 ### 10.03.18 Lists
 
