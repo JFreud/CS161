@@ -9,8 +9,8 @@ DATE | AIM
 
 ### 10.05.18 Types
 - defining a new type
-- ```type {- alias -} String = [Char]
-```
+- ```type {- alias -} String = [Char]```
+```Haskell
 
 -- type {- alias -} String = [Char] <- already defined in Prelude
 
