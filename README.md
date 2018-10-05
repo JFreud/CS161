@@ -5,6 +5,12 @@ DATE | AIM
 :---:| ---
 10/1 | [Introduction](#100118-introduction)
 10/3 | [Lists](#100318-lists)
+10/5 | [Types](#100518-types)
+
+### 10.05.18 Types
+- defining a new type
+- ```type {- alias -} String = [Char]
+
 
 ### 10.03.18 Lists
 
@@ -32,6 +38,8 @@ DATE | AIM
   - ```length [] = 0```
   - ```length (x:xs) = 1 + length xs``` <- x:xs is list pattern, x gets mapped to single element, xs gets mapped to rest
 - read about map to more generally define list fxns
+- ```map :: (Int -> Bool) -> [Int] -> [Bool]
+- you can use _ if you don't want to give something a name
     
   
 
