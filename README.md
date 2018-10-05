@@ -10,6 +10,35 @@ DATE | AIM
 ### 10.05.18 Types
 - defining a new type
 - ```type {- alias -} String = [Char]
+```
+
+-- type {- alias -} String = [Char] <- already defined in Prelude
+
+data Person
+  = Student String String Int
+  | Instructor String [String]
+  | Parent Int
+  deriving (Show)
+
+--  [Student, Instructor, Instructor] works because they are the same type
+
+getName :: Person -> String
+getName (Student name _ _) = name
+-- use data constructors to pattern match values (underscores are like wildcards)
+getName (Instructor name _) = name
+-- getName (Instructor "ravi" []) -> "ravi"
+-- map getName [Instructor "Ravi" [], Student  "Christian" "asdafsa" 100000] -> ["Ravi", "Christian"]
+-- getName (Parent _) = "No Name"
+
+```
+- How to treat smth like Parent that has no way of getting name?
+  - define another MaybeError type
+```Haskell
+data MaybeError
+  = Error String -- "error"
+  | Success String
+```
+
 
 
 ### 10.03.18 Lists
