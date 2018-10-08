@@ -49,7 +49,67 @@ squareList :: {- forall n. -} Num n => [n] -> [n]
 squareList ns = map (^2) ns
 ```
 - ^^^ another way without defining square
+```Haskell
+squareList = \ns -> let g = (map (^2)) in
+                    g ns
+squareList = map (^2)
+```
+- ```f x = g x {- eta-expansion -}```
+- ```f   = g   {- eta-reduction -}```
+- point-free style (arguments are points, this style is omitting the points)
+```Haskell
+squareAndDoubleList :: {- for all n. -} Num n => [n] -> [n]
+squareAndDoubleList ns = map (\n -> (*2) ((^2) n)) ns
+```
+- how do we compose functions?
+```Haskell
+compose :: (b -> c) -> (a -> b) -> a -> c
+compose f g = \a -> f (g a)
+```
+- so using compose:
+```Haskell 
+squareAndDoubleList :: {- for all n. -} Num n => [n] -> [n]
+squareAndDoubleList ns = map (compose (*2) (^2)) ns
+```
+- compose exists as standard library function under (.)
+```Haskell
+squareAndDoubleList ns = map ((*2) . (^2)) ns
+```
+- ```\x -> h (g (f x))```
+- what if we don't want to add all these parentheses? use $
+- ```($) f x = f x``` <- seems useless at first, but its right associative
+- ```h $ g $ f $ x``` <- don't have to use nested parens
 
+- full code:
+```Haskell
+
+doubleList :: {- forall n. -} Num n => [n] -> [n]
+doubleList ns = map ((*) 2) ns
+
+-- squareList :: {- forall n. -} Num n => [n] -> [n]
+-- squareList ns = map (\x -> x^2) ns
+
+-- squareList :: {- forall n. -} Num n => [n] -> [n]
+-- squareList ns = map (flip (^) 2) ns
+
+-- squareList :: {- forall n. -} Num n => [n] -> [n]
+-- squareList ns = map (^2) ns
+
+squareList = \ns -> let g = (map (^2)) in
+                    g ns
+squareList = map (^2)
+
+reverse :: (a -> b -> c) -> b -> a -> c
+reverse f b a = f a b
+
+squareAndDoubleList :: {- for all n. -} Num n => [n] -> [n]
+-- squareAndDoubleList ns = map (compose (*2) (^2)) ns
+squareAndDoubleList ns = map ((*2) . (^2)) ns
+
+compose :: (b -> c) -> (a -> b) -> a -> c
+compose f g = \a -> f (g a)
+
+```
 
 ### 10.05.18 Types
 - defining a new type
