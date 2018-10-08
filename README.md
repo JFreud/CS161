@@ -9,10 +9,33 @@ DATE | AIM
 10/8 | [Functions](#100818-functions)
 
 ### 10.08.18 Functions
-- ```Haskell let add1 x = 1 + x``` is actually syntactic sugar
+- ```let add1 x = 1 + x``` is actually syntactic sugar
 - ```\x -> 1 + x``` given x, return 1 + x. The backslash represents a lambda
 - ```:t \x -> 1 + x``` returns ```\x -> 1 + x :: Num a => a -> a```
-- ```\x -> \y -> x + y :: Num a => a -> a -> a``` 
+- ```\x -> \y -> x + y :: Num a => a -> a -> a```
+- multi-argument functions are just a sequence of nested single-argument functions
+  - after you give it the first argument, what it computes is another function
+- you could do ```\x y -> x + y```
+```Haskell 
+
+doubleList :: {- forall n. -} Num n => [n] -> [n]
+doubleList ns = map ((*) 2) ns
+
+squareList :: {- forall n. -} Num n => [n] -> [n]
+squareList ns = map (\x -> x^2) ns
+```
+- don't have to define square as long as it's still readable
+- ```(^) :: (Num a, Integral b) => a -> b -> a```
+- how to reverse?
+- ```let reverseCaret b a = a ^ b``` 
+- abstracted: ```let reverse f b a = f a b```
+```Haskell
+reverse :: (a -> b -> c) -> c -> b
+reverse f b a = f a b
+```
+- why not ```a -> a -> a```? bc they don't need to have the same type. Take arbitrary function f and reverse its arguments
+  - ex. (^) has different argument types but cant still be reversed
+
 
 ### 10.05.18 Types
 - defining a new type
