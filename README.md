@@ -30,11 +30,25 @@ squareList ns = map (\x -> x^2) ns
 - ```let reverseCaret b a = a ^ b``` 
 - abstracted: ```let reverse f b a = f a b```
 ```Haskell
-reverse :: (a -> b -> c) -> c -> b
+reverse :: (a -> b -> c) -> b -> a -> c
 reverse f b a = f a b
 ```
 - why not ```a -> a -> a```? bc they don't need to have the same type. Take arbitrary function f and reverse its arguments
   - ex. (^) has different argument types but cant still be reversed
+- in the standard library, reverse is called flip
+```Haskell
+squareList :: {- forall n. -} Num n => [n] -> [n]
+squareList ns = map (flip (^) 2) ns
+```
+- ^^^ another way without defining square
+- ```let add3 = (3+) -- {- (+) 3 == \y -> 3 + y -}```
+- ```let add3 = (+3) -- {- \x -> x + 3 -}```
+- ```let add3 = (+3) -- {- flip (+) 3 == \x -> x + 3 -}```
+```Haskell
+squareList :: {- forall n. -} Num n => [n] -> [n]
+squareList ns = map (^2) ns
+```
+- ^^^ another way without defining square
 
 
 ### 10.05.18 Types
