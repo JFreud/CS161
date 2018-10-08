@@ -6,6 +6,13 @@ DATE | AIM
 10/1 | [Introduction](#100118-introduction)
 10/3 | [Lists](#100318-lists)
 10/5 | [Types](#100518-types)
+10/8 | [Functions](#100818-functions)
+
+### 10.08.18 Functions
+- ```Haskell let add1 x = 1 + x``` is actually syntactic sugar
+- ```\x -> 1 + x``` given x, return 1 + x. The backslash represents a lambda
+- ```:t \x -> 1 + x``` returns ```\x -> 1 + x :: Num a => a -> a```
+- ```\x -> \y -> x + y :: Num a => a -> a -> a``` 
 
 ### 10.05.18 Types
 - defining a new type
