@@ -7,6 +7,47 @@ DATE | AIM
 10/3 | [Lists](#100318-lists)
 10/5 | [Types](#100518-types)
 10/8 | [Functions](#100818-functions)
+10/10 | [Type Classes)(#101018-type-classes)
+
+### 10.10.18 Type Classes
+- what can't be equated?
+  - different types, functions, etc
+- type classes start with capital letters
+``` class Eq_ a where ```
+- gonna define what it means for set of types a to be in the class
+```Haskell
+data List
+  = Nil
+  | Cons a (List a)
+```
+- Nil is empty list, Cons has value a (the head) and another List (the tail)
+- have to define stuff
+comparison defaults:
+```Haskell
+data List
+  = Nil
+  | Cons a (List a)
+```
+- this way you only need to define one, and the other will be automatically defined
+instance:
+```Haskell
+instance Eq_ IntList where
+  Nil == Nil = True
+  Cons n ns == Nil = False
+  Nil == Cons n ns = False
+  Cons m ms == Cons n ns = n == m && ns == ms
+```
+- You could replace two middle cases by adding ```_ == _ = False``` at the end
+- constraint on type a
+  - if for every type a that is in Eq already, then its the case that list of a is gonna be in eq, based on the defintion in this class. Will only work for types where the value is known to be an Eq
+ 
+```Haskell
+class Eq a => Ord_ a where
+  (<=) :: a -> a -> Bool
+```
+- Ord only makes sense if a is already an Eq
+- also wtf is going on in this class
+  
 
 ### 10.08.18 Functions
 - ```let add1 x = 1 + x``` is actually syntactic sugar
