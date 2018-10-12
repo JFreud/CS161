@@ -8,6 +8,15 @@ DATE | AIM
 10/5 | [Types](#100518-types)
 10/8 | [Functions](#100818-functions)
 10/10 | [Type Classes)(#101018-type-classes)
+10/12 | [IO](#101218-io)
+
+
+### 10.12.18 IO
+- most languages use void as type... that doesn't give a lot of information
+```Haskell
+:t main -> main :: IO ()
+```
+- IO is a computation that interacts with the user and outputs unit
 
 ### 10.10.18 Type Classes
 - what can't be equated?
