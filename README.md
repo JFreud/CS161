@@ -14,9 +14,61 @@ DATE | AIM
 ### 10.12.18 IO
 - most languages use void as type... that doesn't give a lot of information
 ```Haskell
+main = putStrLn "Hello, world!"
 :t main -> main :: IO ()
 ```
 - IO is a computation that interacts with the user and outputs unit
+- getLine is not a function (type IO String)
+- do notation/block 
+```
+do {
+  action1; -- IO T1
+  action2; -- IO T2
+  action3; -- IO T3
+} :: IO T3
+```
+- type is that of the last action
+- how to store getLine (can't use let, that would make the variable a synonym for getLine)
+``` import System.Environemnt ```
+- way to ask for the environment variables (when Haskell was launched)
+- sometimes you need to add return to make types match
+- use ```read```
+
+###### full code
+```Haskell
+module Main where
+
+
+import System.Environment
+
+
+
+main :: IO ()
+main = do
+   putStrLn "Hello, world! How are you?"
+   s <- getLine
+   putStrLn $ "great you are " ++ s
+
+login :: IO ()
+login = do
+  putStrLn "What's your username?"
+  s <- getLine
+  user <- getEnv "USER"
+  if s == user
+    then putStrLn $ "Thank you " ++ s
+    else do
+         putStrLn "Filthy LIES"
+         login
+
+-- ask :: IO Int
+ask = do
+  putStrLn "What's your favorite number?"
+  s <- getLine
+  putStrLn $ "That's a bad number. " ++ show (read s - 1) ++ " is better"
+  -- return s
+```
+
+
 
 ### 10.10.18 Type Classes
 - what can't be equated?
