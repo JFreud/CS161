@@ -7,9 +7,28 @@ DATE | AIM
 10/3 | [Lists](#100318-lists)
 10/5 | [Types](#100518-types)
 10/8 | [Functions](#100818-functions)
-10/10 | [Type Classes)(#101018-type-classes)
+10/10 | [Type Classes](#101018-type-classes)
 10/12 | [IO](#101218-io)
+10/15 | [Misc](#101518-misc)
 
+
+### 10.15.18 Misc
+```
+foldr foo init [x1, x2, x3]
+foldr foo init (x1:x2:x3:[])
+foo x1 (foldr foo init (x2:x3:[]))
+foo x1 (foo x2 (foldr foo init (x3:[])))
+foo x1 (foo x2 (foo x3 (foldr foo init [])))
+foo x1 (foo x2 (foo x3 (init)))
+x1 `foo` (x2 `foo` (x3 `foo` (init)))
+```
+- kinds of types
+- ```:kind Bool``` is type * (doesn't take any more arguments)
+```Haskell
+cartesianProduct :: [a] -> [b] -> [(a, b)]
+cartesianProduct as bs = [(a, b) | a <- as, b <- bs]
+```
+- list comprehensions
 
 ### 10.12.18 IO
 - most languages use void as type... that doesn't give a lot of information
