@@ -10,6 +10,82 @@ DATE | AIM
 10/10 | [Type Classes](#101018-type-classes)
 10/12 | [IO](#101218-io)
 10/15 | [Misc](#101518-misc)
+10/17 | [Maybe](#101718-maybe)
+
+
+### 10.17.18 Maybe
+- remember maybe?
+```Haskell
+addOne :: Num n => Maybe n -> Maybe n
+addOne (Just a) = Just (a + 1)
+addOne Nothing  = Nothing
+
+maybeLength :: Maybe [a] -> Maybe Int
+maybeLength (Just xs) = Just (length xs)
+maybeLength Nothing   = Nothing
+```
+- there's an easier way to do this
+```Haskell
+mapMaybe :: (a -> b) -> Maybe a -> Maybe b
+mapMaybe f Nothing  = Nothing
+mapMaybe f (Just x) = Just $ f x
+```
+- now:
+```Haskell
+addOne ns = mapMaybe (+1) ns
+maybeLength ns = mapMaybe length ns
+```
+- more stuff I don't really understand
+```Haskell
+bar                           :: (t1 -> t2 -> t3)
+mapMaybe {- t1 (t2->t3)-} bar :: Maybe t1 -> Maybe t2 -> t3
+```
+```Haskell
+applyMaybe :: Maybe (a -> b) -> Maybe a -> Maybe b
+applyMaybe (Just f) ma = mapMaybe f ma
+applyMaybe _ _         = Nothing
+```
+- now you can ```mapMaybe (+) ) (Just 1) `applyMaybe` (Just 3)``` since the first part becomes a maybe function
+- now you be lifting functions
+```Haskell
+lift2 :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+lift2 f ma b =
+  mapMaybe f ma `applyMaybe` mb
+
+lift3 :: (a -> b -> c -> d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d
+lift3 f ma mb mc =
+  mapMaybe f ma 'applyMaybe' mb 'applyMaybe' mc
+```
+- type class called applicative (as opposed to functor)
+```Haskell
+type Person = String
+parent :: Person -> Maybe Person
+parent p = undefined
+
+grandparent :: Person -> Maybe Person
+grandparent p =
+  case (parent p) of
+    Nothing -> Nothing
+    Just pp -> parent pp
+```
+- but what if we want more layers of parent?
+```Haskell
+fancyApplyMaybe :: (a -> Maybe b) -> Maybe a -> Maybe b
+fancyApplyMaybe f Nothing  = Nothing
+fancyApplyMaybe f (Just a) = f a
+```
+- now we can use this to define the grandparent function
+```Haskell
+grandparent :: Person -> Maybe Person
+grandparent p =
+  -- fancyApplyMaybe parent (parent p)
+  parent `fancyApplyMaybe` (parent p)
+```
+- then there's this thing:
+```Haskell
+fancyApply :: Monad_ t => (a -> t b) -> t a -> t b
+```
+cya
 
 
 ### 10.15.18 Misc
