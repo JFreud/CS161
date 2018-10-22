@@ -11,6 +11,36 @@ DATE | AIM
 10/12 | [IO](#101218-io)
 10/15 | [Misc](#101518-misc)
 10/17 | [Maybe](#101718-maybe)
+10/22 | [Applicative(#102218-applicative)
+
+
+### 10.22.18 Applicative
+```applyMaybe :: Maybe (a -> b) -> Maybe a -> Maybe b```
+- must have kind * -> *
+```Haskell
+class Functor t => Applicative t where
+    apply :: t (a -> b) -> t a -> t b
+    
+instance Applicative (Maybe a) where
+    apply (Just f) ma = fmap f ma
+    apply Nothing   _ = Nothing
+```
+- applied lists:
+```Haskell
+instance Applicative_ [] where
+    -- apply :: [(a, b)] -> [a] -> [b]
+    -- apply fs as = concatMap (\f -> map f as) fs
+    -- apply fs as = concatMap (\f -> concatMap (\a -> [f a]) as) fs
+    apply fs as = [f a | f <- fs, a <- as]
+```
+- one instance definition per type, bc Haskell doesn't want the ambiguity
+  - to get around this, define a newtype
+- pure takes an unwrapped value and wraps it however it makes sense
+```Haskell
+<*> apply operator
+[(+),(+)] <*> [1..3] <*> [1..3]
+```
+- functions can be added to the Functor class
 
 
 ### 10.17.18 Maybe
