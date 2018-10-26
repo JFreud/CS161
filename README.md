@@ -11,7 +11,10 @@ DATE | AIM
 10/12 | [IO](#101218-io)
 10/15 | [Misc](#101518-misc)
 10/17 | [Maybe](#101718-maybe)
-10/22 | [Applicative(#102218-applicative)
+10/22 | [Applicative](#102218-applicative)
+10/26 | [Monads](#102618-monads)
+
+### 10.26.18 Monads
 
 
 ### 10.22.18 Applicative
