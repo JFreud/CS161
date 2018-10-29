@@ -13,6 +13,114 @@ DATE | AIM
 10/17 | [Maybe](#101718-maybe)
 10/22 | [Applicative](#102218-applicative)
 10/26 | [Monads](#102618-monads)
+10/29 | [Monoids](#102918-monoids)
+
+
+### 10.29.18 Monoids
+- remember foldr?
+- ```foldr foo init [x1,x2,x3]```
+    - ```x1 `foo` (x2 `foo` (x3 `foo` init))```
+- semigroup is a set or a type that has a binary associative operator
+    - (S, op : S -> S -> S)
+    - a op ( b op c) == (a op b) op c
+ ```Haskell
+ class Semigroup_ t where -- inferred to be kind *
+  (<>) :: t -> t -> t
+
+  sconcat :: [t] -> t
+  sconcat (t:ts) = foldr (<>) t ts
+ ```
+- monoid is semigroup with identity
+  - (S, op : S -> S -> S, id: S)
+  - id op b  == b
+  - a  op id == a
+ ```Haskell
+ class Semigroup_ t => Monoid_ t where
+  mempty :: t
+
+  mappend :: t -> t -> t -- here bc Monoid used to not be part of Semigroup, still stays for backwards compatability
+  mappend = (<>)
+
+  mconcat :: [t] -> t
+  mconcat ts = foldr (<>) id ts
+ ```
+ 
+ - defining stuff
+ ```Haskell
+ -- foldr foo init [x1,x2,x3]
+-- x1 `foo` (x2 `foo` (x3 `foo` init))
+
+-- "semigroup"
+-- (S, op : S -> S -> S)
+-- a op ( b op c) == (a op b) op c
+-- a set or a type that has a binary associative operator
+
+class Semigroup_ t where -- inferred to be kind *
+  (<>) :: t -> t -> t
+
+  sconcat :: [t] -> t
+  sconcat (t:ts) = foldr (<>) t ts
+
+
+
+-- "monoid"
+-- (S, op : S -> S -> S, id: S)
+-- a op ( b op c) == (a op b) op c
+-- id op b  == b
+-- a  op id == a
+
+class Semigroup_ t => Monoid_ t where
+  mempty :: t
+
+  mappend :: t -> t -> t -- here bc Monoid used to not be part of Semigroup, still stays for backwards compatability
+  mappend = (<>)
+
+  mconcat :: [t] -> t
+  mconcat ts = foldr (<>) id ts
+
+newtype Sum  a = Sum a -- if we wanted to we could do newtype Num a => Sum a = Sum a, but preferred style is to omit it
+newtype Prod a = Prod a -- it will be typechecked later anyway
+
+newtype Any = Any Bool -- extra exercise to add these
+newtype ALl = ALl Bool
+
+
+instance Num a -> Semigroup_ (Prod a) where
+  -- (<>) :: Prod a -> Prod a -> Prod a
+  Prod a <> Prod b = Prod $ a * b
+
+instance Num a -> Monoid_ (Prod a) where
+  -- mempty :: Prod a
+  mempty = Prod 1
+
+
+
+instance Semigroup_ [a] where
+  (<>) = (++) -- "append"
+
+instance Monoid_ [a] where
+  mempty = [] -- "empty"\
+
+
+newtype First a = First (Maybe a)
+newtype Last  a = Last (Maybe a)
+
+
+instance Semigroup_ a => Semigroup_ (Maybe a) where
+  Just a1 <> Just a2 = Just $ a1 <> a2
+  Nothing <> ma2     = ma2
+  ma1     <> _       = ma1 -- ma1 <> Nothing = ma1
+
+instance Semigroup_ a => Monoid_ (Maybe a) where -- could also use Monoid_ a => Monoid_ (Maybe a), but unnecessarily restrictive
+  mempty = Nothing
+
+
+class Applicative t => Alternative_ t where -- when you don't care about what type a is inside it
+  empty :: t a
+  (<|>) :: t a -> t a -> t a
+-- (<>) :: t a -> t a -> t a
+```
+
 
 ### 10.26.18 Monads
 
